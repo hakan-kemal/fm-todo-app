@@ -30,7 +30,18 @@
     <script src="./script.js" defer></script>
   </head>
   <body>
-    <main>
+    <main class="container">
+      <picture class="background-image">
+        <source
+          media="(min-width: 48rem)"
+          srcset="./images/bg-desktop-light.jpg"
+        />
+        <img
+          src="./images/bg-mobile-light.jpg"
+          alt="Background image"
+          fetchpriority="high"
+        />
+      </picture>
       <header>
         <h1>Todo</h1>
         <button type="button" aria-label="Toggle Dark Mode">
@@ -39,21 +50,13 @@
       </header>
 
       <section>
-        <form id="todo-form">
-          <input
-            type="text"
-            id="todo-input"
-            placeholder="Create a new todo..."
-            autocomplete="off"
-          />
-          <ul>
-            <li>Todo 1</li>
-            <li>Todo 2</li>
-            <li>Todo 3</li>
-            <li>Todo 4</li>
-            <li>Todo 5</li>
-          </ul>
-        </form>
+        <input
+          type="text"
+          id="todo-input"
+          placeholder="Create a new todo..."
+          autocomplete="off"
+        />
+        <ul id="todo-list"></ul>
       </section>
 
       <section>

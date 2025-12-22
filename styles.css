@@ -57,9 +57,33 @@
   padding: 0;
 }
 
+ul {
+  list-style: none;
+}
+
 html {
   background-color: var(--color-gray-50);
   color: var(--color-navy-850);
   font: var(--text-preset-base);
   scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.container {
+  margin: auto var(--spacing-300);
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 12.5rem;
+  z-index: -1;
 }
