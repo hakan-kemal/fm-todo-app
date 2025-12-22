@@ -30,24 +30,55 @@
     <script src="./script.js" defer></script>
   </head>
   <body>
-    <h1>Todo</h1>
+    <main>
+      <header>
+        <h1>Todo</h1>
+        <button type="button" aria-label="Toggle Dark Mode">
+          <img src="./images/icon-moon.svg" alt="Moon icon" />
+        </button>
+      </header>
 
-    <p><span id="items-count"></span> items left</p>
+      <section>
+        <form id="todo-form">
+          <input
+            type="text"
+            id="todo-input"
+            placeholder="Create a new todo..."
+            autocomplete="off"
+          />
+          <ul>
+            <li>Todo 1</li>
+            <li>Todo 2</li>
+            <li>Todo 3</li>
+            <li>Todo 4</li>
+            <li>Todo 5</li>
+          </ul>
+        </form>
+      </section>
 
-    <button type="button">Clear Completed</button>
+      <section>
+        <p><span id="items-count"></span> items left</p>
 
-    <ul>
-      <li>
-        <button type="button">All</button>
-      </li>
-      <li>
-        <button type="button">Active</button>
-      </li>
-      <li>
-        <button type="button">Completed</button>
-      </li>
-    </ul>
+        <nav>
+          <ul>
+            <li>
+              <button type="button">All</button>
+            </li>
+            <li>
+              <button type="button">Active</button>
+            </li>
+            <li>
+              <button type="button">Completed</button>
+            </li>
+          </ul>
+        </nav>
 
-    <p>Drag and drop to reorder list</p>
+        <button type="button">Clear Completed</button>
+      </section>
+
+      <footer>
+        <p>Drag and drop to reorder list</p>
+      </footer>
+    </main>
   </body>
 </html>
