@@ -19,12 +19,12 @@
   --color-blue-500: hsl(220 98% 61%);
   /* Gradients */
   --color-blue-purple-gradient-light: linear-gradient(
-    to right,
+    to bottom right,
     hsl(192 100% 67%),
     hsl(280 87% 65%)
   );
   --color-blue-purple-gradient-dark: linear-gradient(
-    to right,
+    to bottom right,
     hsl(254 85% 40%),
     hsl(307 64% 39%)
   );
