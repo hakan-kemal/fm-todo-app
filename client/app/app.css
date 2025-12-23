@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -31,27 +32,41 @@
   --font-sans:
     'Josefin Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --tracking-tightest: -0.015625rem;
+  /* Styleguide font-family */
+  --font-jakarta:
+    'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
 @layer utilities {
   .text-preset-base {
-    @apply text-base font-normal leading-none;
+    @apply text-base font-normal leading-none tracking-tightest;
   }
 
   .text-preset-1 {
-    @apply text-lg font-normal leading-none;
+    @apply text-lg font-normal leading-none tracking-tightest;
   }
 
-  .text-preset-2 {
-    @apply text-sm font-bold leading-none;
+  .text-preset-2-bold {
+    @apply text-sm font-bold leading-none tracking-tightest;
+  }
+
+  .text-preset-2-regular {
+    @apply text-sm font-normal leading-none tracking-tightest;
   }
 
   .text-preset-3 {
-    @apply text-sm font-normal leading-none;
+    @apply text-xs font-normal leading-none tracking-tightest;
   }
 
-  .text-preset-4 {
-    @apply text-xs font-normal leading-none;
+  /* Styleguide font */
+  .text-jakarta-base {
+    @apply font-jakarta text-base font-normal leading-5;
+  }
+
+  .text-jakarta-bold {
+    @apply font-jakarta text-lg font-bold leading-6;
   }
 }
 
