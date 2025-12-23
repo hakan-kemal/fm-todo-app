@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Colors */
+  --color-white: hsl(0 100% 100%);
+  --color-black: hsl(0 0% 0%);
+  --color-purple-800: hsl(237 14% 26%);
+  --color-purple-700: hsl(233 14% 35%);
+  --color-purple-600: hsl(235 16% 43%);
+  --color-purple-300: hsl(234 39% 85%);
+  --color-purple-100: hsl(236 33% 92%);
+  --color-gray-600: hsl(236 9% 61%);
+  --color-gray-300: hsl(233 11% 84%);
+  --color-gray-50: hsl(0 0% 98%);
+  --color-navy-950: hsl(235 21% 11%);
+  --color-navy-900: hsl(235 24% 19%);
+  --color-navy-850: hsl(235 19% 35%);
+  --color-blue-500: hsl(220 98% 61%);
+  /* Gradients */
+  --color-blue-purple-gradient-light: linear-gradient(
+    to right,
+    hsl(192 100% 67%),
+    hsl(280 87% 65%)
+  );
+  --color-blue-purple-gradient-dark: linear-gradient(
+    to right,
+    hsl(254 85% 40%),
+    hsl(307 64% 39%)
+  );
+  /* Typography */
+  --font-sans:
+    'Josefin Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+@layer utilities {
+  .text-preset-base {
+    @apply text-base font-normal leading-none;
+  }
+
+  .text-preset-1 {
+    @apply text-lg font-normal leading-none;
+  }
+
+  .text-preset-2 {
+    @apply text-sm font-bold leading-none;
+  }
+
+  .text-preset-3 {
+    @apply text-sm font-normal leading-none;
+  }
+
+  .text-preset-4 {
+    @apply text-xs font-normal leading-none;
+  }
+}
+
+html,
+body {
+  @apply bg-gray-50 dark:bg-navy-950 text-navy-850 dark:text-purple-100 scroll-smooth;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
