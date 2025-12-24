@@ -57,7 +57,7 @@ export default function Header() {
         />
       </picture>
 
-      <div className="absolute inset-0 max-w-xl mx-auto px-6 py-12 flex items-center justify-between text-white">
+      <div className="absolute inset-0 top-12 max-w-xl mx-auto px-6 flex items-start justify-between text-white">
         <img
           src={LogoTodo}
           alt="logo todo app"
