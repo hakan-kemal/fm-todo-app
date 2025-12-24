@@ -9,6 +9,10 @@ export function meta({}: Route.MetaArgs) {
       content:
         'A simple todo app to practice HTML, CSS and JavaScript by building a project from scratch.',
     },
+    {
+      name: 'color-scheme',
+      content: 'light dark',
+    },
   ];
 }
 

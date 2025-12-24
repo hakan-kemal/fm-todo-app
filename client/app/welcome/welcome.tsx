@@ -1,54 +1,10 @@
-import { IconMoon, IconSun } from '~/assets/icons';
-import {
-  ImageDesktopDark,
-  ImageDesktopLight,
-  ImageMobileLight,
-  ImageMobileDark,
-} from '~/assets/images';
+import { Header } from '~/components';
 
 export function Welcome() {
   return (
-    <main className="flex flex-col items-center justify-center gap-4 pt-12 pb-19.5">
-      <header className="flex flex-col items-center gap-4">
-        <picture>
-          <source
-            media="(min-width: 48rem) and (prefers-color-scheme: dark)"
-            srcSet={ImageDesktopDark}
-          />
-          <source media="(min-width: 48rem)" srcSet={ImageDesktopLight} />
-          <source
-            media="(prefers-color-scheme: dark)"
-            srcSet={ImageMobileDark}
-          />
-          <img
-            src={ImageMobileLight}
-            alt="Background image"
-            fetchPriority="high"
-            className="w-full"
-          />
-          {/* <img
-            src={ImageMobileDark}
-            alt="Background image for dark mode"
-            fetchPriority="high"
-            className="hidden w-full dark:block"
-          /> */}
-        </picture>
-
-        <h1>Todo</h1>
-
-        <button type="button" aria-label="Toggle Dark Mode">
-          <img
-            src={IconMoon}
-            alt="Moon icon"
-            className="block w-full dark:hidden"
-          />
-          <img
-            src={IconSun}
-            alt="Sun icon"
-            className="hidden w-full dark:block"
-          />
-        </button>
-      </header>
+    // pt-12 pb-19.5
+    <main className="flex flex-col items-center justify-center gap-4 ">
+      <Header />
 
       <section className="max-w-xl w-full space-y-6 px-4">
         <input
