@@ -1,4 +1,4 @@
-export default function Input(
+export default function TodoInput(
   props: React.InputHTMLAttributes<HTMLInputElement>
 ) {
   const styles = `inset-shadow-input rounded-md w-full pl-18 py-5 pr-6 text-preset-1 !leading-6 text-purple-800

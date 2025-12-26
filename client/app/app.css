@@ -39,6 +39,7 @@
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   /* Miscellaneous */
   --inset-shadow-input: 0 2.1875rem 3.125rem -0.9375rem rgb(127, 17, 224, 0.5);
+  --inset-shadow-dark: 0 2.1875rem 3.125rem -0.9375rem rgb(194, 195, 214, 0.5);
 }
 
 @layer utilities {

@@ -1,5 +1,5 @@
+import { Colors, Spacing, Typography } from '~/components/styleguide';
 import type { Route } from './+types/home';
-import { Colors, Typography, Spacing } from '~/components/styleguide';
 
 export function meta({}: Route.MetaArgs) {
   return [{ title: 'Styleguide' }];

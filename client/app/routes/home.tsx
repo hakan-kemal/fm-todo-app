@@ -1,5 +1,5 @@
+import { Header, TodoListContainer } from '~/components';
 import type { Route } from './+types/home';
-import { Header, TodoList } from '~/components';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center">
       <Header />
-      <TodoList />
+      <TodoListContainer />
     </main>
   );
 }
