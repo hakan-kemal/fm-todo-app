@@ -1,11 +1,29 @@
-export default function TodoList() {
+interface TodoListProps {
+  todos: {
+    id: number;
+    text: string;
+    completed: boolean;
+  }[];
+}
+
+export default function TodoList({ todos }: TodoListProps) {
   return (
     <ul
-      className="rounded-3xl border border-gray-200 p-6 dark:border-gray-700 space-y-4"
+      className="relative mt-4 rounded-t-md inset-shadow-dark bg-white"
       id="todo-list"
     >
-      {/* Todo items will be dynamically added here */}
-      <li>No todos yet</li>
+      {todos.map((todo) => {
+        return (
+          <li
+            className="w-full pl-14 py-4 pr-5 text-preset-3 leading-5! border-b border-purple-300
+            bg-[url(./assets/icons/icon-circle.svg)] bg-position-[1.25rem_center] bg-no-repeat bg-size-[1.25rem_1.25rem]
+            focus-visible:outline-2 focus-visible:outline-purple-300 focus-visible:outline-offset-2"
+            key={todo.id}
+          >
+            {todo.text}
+          </li>
+        );
+      })}
     </ul>
   );
 }
