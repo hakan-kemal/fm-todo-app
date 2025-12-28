@@ -1,30 +1,75 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TodoFilter, TodoInput, TodoList, TodoListFooter } from '~/components';
-
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
+import type { Todo } from '~/types';
 
 export default function TodoListContainer() {
-  const initialState = () => {
-    const todos = [
-      { id: 1, text: 'Complete online JavaScript course', completed: true },
-      { id: 2, text: 'Jog around the park 3x', completed: false },
-      { id: 3, text: '10 minutes meditation', completed: false },
-      { id: 4, text: 'Read for 1 hour', completed: false },
-      { id: 5, text: 'Pick up groceries', completed: false },
-      { id: 6, text: 'Complete Todo App on Frontend Mentor', completed: false },
-    ];
-
-    return todos;
-  };
-
-  const [todos, setTodos] = useState<Todo[]>(initialState);
   const [activeFilter, setActiveFilter] = useState<
     'all' | 'active' | 'completed'
   >('all');
+  const [loading, setLoading] = useState(true);
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/todos');
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data: Todo[] = await res.json();
+        setTodos(data);
+      } catch (error) {
+        console.error('Error fetching todos:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTodos();
+  }, []);
+
+  const handleDeleteTodo = async (id: number) => {
+    try {
+      const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to delete todo');
+      }
+
+      setTodos(todos.filter((t) => t.id !== id));
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
+
+  const handleSetCompleted = async (id: number) => {
+    try {
+      const todo = todos.find((t) => t.id === id);
+      if (!todo) return;
+
+      const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          completed: !todo.completed,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to update todo');
+      }
+
+      const updatedTodo: Todo = await res.json();
+      setTodos(todos.map((t) => (t.id === id ? updatedTodo : t)));
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
+  };
 
   const filteredTodos = todos.filter((todo) => {
     if (activeFilter === 'active') return !todo.completed;
@@ -48,7 +93,12 @@ export default function TodoListContainer() {
         autoComplete="off"
         placeholder="Create a new todo..."
       />
-      <TodoList todos={filteredTodos} />
+      {loading && <div>Loading todos...</div>}
+      <TodoList
+        onDeleteTodo={handleDeleteTodo}
+        onSetCompleted={handleSetCompleted}
+        todos={filteredTodos}
+      />
       <TodoFilter
         activeFilter={activeFilter}
         count={todos.filter((todo) => !todo.completed).length}
