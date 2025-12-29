@@ -2,21 +2,11 @@
   "name": "todo-app",
   "version": "1.0.0",
   "description": "A simple fullstack todo app built with React Router + Typescript + Vite + TailwindCSS + Node.js + Express + PostgreSQL",
-  "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run dev --prefix client"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/hakan-kemal/fm-todo-app.git"
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/hakan-kemal/fm-todo-app/issues"
-  },
-  "homepage": "https://github.com/hakan-kemal/fm-todo-app#readme"
+  "license": "ISC"
 }

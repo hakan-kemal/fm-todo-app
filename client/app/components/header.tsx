@@ -11,6 +11,12 @@ import {
 export default function Header() {
   const initialState = () => {
     if (typeof window !== 'undefined') {
+      // Check localStorage first
+      const saved = localStorage.getItem('colorScheme');
+      if (saved === 'dark' || saved === 'light') {
+        return saved;
+      }
+      // Fall back to system preference
       const systemPrefersDark = window.matchMedia(
         '(prefers-color-scheme: dark)'
       );
@@ -25,8 +31,17 @@ export default function Header() {
   );
 
   useEffect(() => {
+    // Apply dark class to html element
+    if (colorScheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // Save to localStorage
     localStorage.setItem('colorScheme', colorScheme);
 
+    // Update meta tag
     const colorSchemeMeta = document.querySelector<HTMLMetaElement>(
       'meta[name=color-scheme]'
     );

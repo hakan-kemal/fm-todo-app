@@ -1,4 +1,4 @@
-import { IconCheck, IconCircle, IconCross } from '~/assets/icons';
+import { IconCheck, IconCross } from '~/assets/icons';
 import type { Todo } from '~/types';
 interface TodoListProps {
   onDeleteTodo: (id: number) => void;
@@ -39,13 +39,13 @@ export default function TodoList({
 
               {todo.description}
             </button>
-            <button type="button" className="cursor-pointer">
-              <img
-                src={IconCross}
-                alt="delete todo"
-                className="w-3 h-3"
-                onClick={() => onDeleteTodo(todo.id)}
-              />
+            <button
+              type="button"
+              className="cursor-pointer"
+              onClick={() => onDeleteTodo(todo.id)}
+              aria-label="delete todo"
+            >
+              <img src={IconCross} className="w-3 h-3" />
             </button>
           </li>
         );

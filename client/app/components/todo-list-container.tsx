@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { TodoFilter, TodoInput, TodoList, TodoListFooter } from '~/components';
 import type { Todo } from '~/types';
+import instance from '~/lib/axios';
 
 export default function TodoListContainer() {
   const [activeFilter, setActiveFilter] = useState<
@@ -8,19 +9,16 @@ export default function TodoListContainer() {
   >('all');
   const [loading, setLoading] = useState(true);
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTodos = async () => {
       try {
-        const res = await fetch('http://localhost:3000/api/todos');
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data: Todo[] = await res.json();
-        setTodos(data);
+        const res = await instance.get('/todos');
+        setTodos(res.data);
       } catch (error) {
         console.error('Error fetching todos:', error);
+        setError('Failed to load todos. Please refresh the page.');
       } finally {
         setLoading(false);
       }
@@ -30,44 +28,45 @@ export default function TodoListContainer() {
   }, []);
 
   const handleDeleteTodo = async (id: number) => {
+    // Optimistic update
+    const previousTodos = todos;
+    setTodos((prev) => prev.filter((t) => t.id !== id));
+
     try {
-      const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
-        method: 'DELETE',
-      });
-
-      if (!res.ok) {
-        throw new Error('Failed to delete todo');
-      }
-
-      setTodos(todos.filter((t) => t.id !== id));
+      await instance.delete(`/todos/${id}`);
     } catch (error) {
-      console.error('Error deleting todo:', error);
+      console.error('Error deleting todo', error);
+      // Rollback on error
+      setTodos(previousTodos);
+      setError('Failed to delete todo. Please try again.');
+      setTimeout(() => setError(null), 3000);
     }
   };
 
   const handleSetCompleted = async (id: number) => {
-    try {
-      const todo = todos.find((t) => t.id === id);
-      if (!todo) return;
+    const todo = todos.find((t) => t.id === id);
+    if (!todo) return;
 
-      const res = await fetch(`http://localhost:3000/api/todos/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          completed: !todo.completed,
-        }),
+    // Optimistic update
+    const previousTodos = todos;
+    setTodos((prev) =>
+      prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t))
+    );
+
+    try {
+      const res = await instance.put(`/todos/${id}`, {
+        completed: !todo.completed,
       });
 
-      if (!res.ok) {
-        throw new Error('Failed to update todo');
-      }
-
-      const updatedTodo: Todo = await res.json();
-      setTodos(todos.map((t) => (t.id === id ? updatedTodo : t)));
+      // Update with server response
+      const updatedTodo: Todo = res.data;
+      setTodos((prev) => prev.map((t) => (t.id === id ? updatedTodo : t)));
     } catch (error) {
-      console.error('Error updating todo:', error);
+      console.error('Error updating todo', error);
+      // Rollback on error
+      setTodos(previousTodos);
+      setError('Failed to update todo. Please try again.');
+      setTimeout(() => setError(null), 3000);
     }
   };
 
@@ -77,21 +76,48 @@ export default function TodoListContainer() {
     return true;
   });
 
-  const handleClearCompleted = () => {
-    setTodos(todos.filter((todo) => !todo.completed));
+  const handleClearCompleted = async () => {
+    const completedTodos = todos.filter((todo) => todo.completed);
+    if (completedTodos.length === 0) return;
+
+    // Optimistic update
+    const previousTodos = todos;
+    setTodos((prev) => prev.filter((todo) => !todo.completed));
+
+    try {
+      await Promise.all(
+        completedTodos.map((todo) => instance.delete(`/todos/${todo.id}`))
+      );
+    } catch (error) {
+      console.error('Error clearing completed todos:', error);
+      // Rollback on error
+      setTodos(previousTodos);
+      setError('Failed to clear completed todos. Please try again.');
+      setTimeout(() => setError(null), 3000);
+    }
   };
 
   const handleFilterChange = (filter: 'all' | 'active' | 'completed') => {
     setActiveFilter(filter);
   };
 
+  const handleTodoCreated = (newTodo: Todo) => {
+    setTodos((prev) => [...prev, newTodo]);
+  };
+
   return (
     <section className="max-w-xl w-full px-4 -mt-27">
+      {error && (
+        <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-md text-sm">
+          {error}
+        </div>
+      )}
       <TodoInput
         type="text"
         id="todo-input"
         autoComplete="off"
         placeholder="Create a new todo..."
+        onTodoCreated={handleTodoCreated}
       />
       {loading && <div>Loading todos...</div>}
       <TodoList
